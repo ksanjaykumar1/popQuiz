@@ -7,8 +7,9 @@ import cors from 'cors';
 
 import Logger from './utils/logger';
 import morganMiddleware from './utils/morgan';
+import connectDB from './db/connect';
 
-const { PORT } = process.env;
+const { PORT, MONGO_URI } = process.env;
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -29,13 +30,15 @@ app.get('/', (req: express.Request, res: express.Response) => {
 
 const start = async () => {
   try {
-    server.listen(port, () => {
+    await connectDB(MONGO_URI);
+    Logger.info('Connected to DB');
+    await server.listen(port, () => {
       // our only exception to avoiding console.log(), because we
       // always want to know when the server is done starting up
       Logger.info(runningMessage);
     });
   } catch (error) {
-    console.log(error);
+    Logger.error(error);
   }
 };
 
