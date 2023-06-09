@@ -5,6 +5,6 @@ export default class UnAuthenticated extends CustomError {
   statusCode: any;
   constructor(message: string) {
     super(message);
-    this.statusCode = StatusCodes.NOT_FOUND;
+    this.statusCode = StatusCodes.UNAUTHORIZED;
   }
 }
