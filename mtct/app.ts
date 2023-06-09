@@ -8,6 +8,8 @@ import cors from 'cors';
 import Logger from './utils/logger';
 import morganMiddleware from './utils/morgan';
 import connectDB from './db/connect';
+import notFound from './middleware/not-found';
+import errorHandler from './middleware/errorHandler';
 
 const { PORT, MONGO_URI } = process.env;
 
@@ -28,6 +30,8 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
 
+app.use(notFound);
+app.use(errorHandler);
 const start = async () => {
   try {
     await connectDB(MONGO_URI);
