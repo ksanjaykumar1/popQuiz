@@ -11,6 +11,8 @@ import connectDB from './db/connect';
 import notFound from './middleware/not-found';
 import errorHandler from './middleware/errorHandler';
 
+import authRouter from './routes/auth';
+
 const { PORT, MONGO_URI } = process.env;
 
 const app: express.Application = express();
@@ -29,7 +31,7 @@ const runningMessage = `Server running at http://localhost:${port}`;
 app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
-
+app.use('/api/v1/auth', authRouter);
 app.use(notFound);
 app.use(errorHandler);
 const start = async () => {
