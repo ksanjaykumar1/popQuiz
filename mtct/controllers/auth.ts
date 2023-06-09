@@ -2,7 +2,7 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as bcrypt from 'bcryptjs';
 
-import User from '../models/user';
+import User from '../models/User';
 import { createJWT } from '../utils/jwt';
 import { BadRequest, UnAuthenticated } from '../errors';
 import Logger from '../utils/logger';
