@@ -1,6 +1,6 @@
 const ROLES = {
   HQ_ADMIN: 'hq_admin',
-  BRANCH_ADMIN: 'branch_admin',
+  BRANCH_REP: 'branch_rep',
   AGENT: 'agent',
   INVESTOR: 'investor',
 };
