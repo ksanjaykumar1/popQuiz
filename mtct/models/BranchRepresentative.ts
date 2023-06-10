@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const BranchRepresentativeSchema = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,
@@ -15,7 +20,7 @@ const BranchRepresentativeSchema = new Schema({
     required: true,
     unique: true,
   },
-  branch: {
+  branchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Branch',
     required: true,

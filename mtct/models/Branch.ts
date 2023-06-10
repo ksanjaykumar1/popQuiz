@@ -1,4 +1,4 @@
-    import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -7,16 +7,11 @@ const Branch = new Schema({
     type: String,
     required: true,
   },
-  location: {
-    type: String,
-    required: true,
-  },
   address: {
     type: String,
   },
   city: {
     type: String,
-    required: true,
   },
   country: {
     type: String,

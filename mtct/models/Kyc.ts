@@ -30,9 +30,14 @@ const kycSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  branch: {
+  branchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Branch',
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
 });

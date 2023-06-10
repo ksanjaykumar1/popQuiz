@@ -1,6 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
 const Agent = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,

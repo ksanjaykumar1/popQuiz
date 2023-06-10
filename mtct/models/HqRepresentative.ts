@@ -12,7 +12,6 @@ const hqRepresentativeSchema = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Branch',
-      required: true,
     },
   ],
   region: {

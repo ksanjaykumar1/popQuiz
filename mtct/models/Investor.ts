@@ -4,6 +4,11 @@ import { INVESTOR_STATUS } from '../utils/enum';
 const { Schema } = mongoose;
 
 const investorSchema = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,
@@ -47,7 +52,7 @@ const investorSchema = new Schema({
   accountStatus: {
     type: String,
     enum: INVESTOR_STATUS,
-    default: 'onboarded'
+    default: 'onboarded',
   },
   createdDate: {
     type: Date,
