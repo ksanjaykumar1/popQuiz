@@ -11,7 +11,12 @@ import connectDB from './db/connect';
 import notFound from './middleware/not-found';
 import errorHandler from './middleware/errorHandler';
 
-import authRouter from './routes/auth';
+import authRoutes from './routes/auth';
+import investorRoutes from './routes/investor';
+import investorPortalRoutes from './routes/investorPortal';
+import saleRoutes from './routes/sale';
+import assetRoutes from './routes/asset';
+import setup from './utils/initialDBDataSetup';
 
 const { PORT, MONGO_URI } = process.env;
 
@@ -31,13 +36,19 @@ const runningMessage = `Server running at http://localhost:${port}`;
 app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
-app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/investor', investorRoutes);
+app.use('/api/v1/investorPortal', investorPortalRoutes);
+app.use('/api/v1/sale', saleRoutes);
+app.use('/api/v1/asset', assetRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 const start = async () => {
   try {
     await connectDB(MONGO_URI);
     Logger.info('Connected to DB');
+    await setup();
     await server.listen(port, () => {
       // our only exception to avoiding console.log(), because we
       // always want to know when the server is done starting up
