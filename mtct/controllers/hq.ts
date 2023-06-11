@@ -5,6 +5,7 @@ import Branch from '../models/Branch';
 import { BadRequest } from '../errors';
 import { getTodayAndTomorrowDate } from '../utils/mongo';
 import Sale from '../models/Sale';
+import KYC from '../models/Kyc';
 
 const getAllOnboarding = async (
   req: express.Request,
@@ -92,6 +93,47 @@ const getAllSaleByBranchToday = async (
     sales,
   });
 };
+
+const getAllKyc = async (req: express.Request, res: express.Response) => {
+  const kycs = await KYC.find();
+  res.status(StatusCodes.OK).json({ msg: 'All kycs', kycs });
+};
+
+const getAllKycByBranch = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  const { branchName } = req.params;
+  const branch = await Branch.findOne({ name: branchName });
+  if (!branch) {
+    throw new BadRequest(`${branchName} doesn't exist`);
+  }
+  const kycs = await KYC.find({ branchId: branch._id });
+  res.status(StatusCodes.OK).json({
+    msg: `All kycs in branch: ${branchName}`,
+    kycs,
+  });
+};
+
+const getAllKycByBranchToday = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  const { branchName } = req.params;
+  const branch = await Branch.findOne({ name: branchName });
+  if (!branch) {
+    throw new BadRequest(`${branchName} doesn't exist`);
+  }
+  const { today, tomorrow } = getTodayAndTomorrowDate();
+  const kycs = await KYC.find({
+    branchId: branch._id,
+    createdDate: { $gte: today, $lt: tomorrow },
+  });
+  res.status(StatusCodes.OK).json({
+    msg: `All kycs in branch: ${branchName} today`,
+    kycs,
+  });
+};
 export {
   getAllOnboarding,
   getAllOnboardingByBranch,
@@ -99,4 +141,7 @@ export {
   getAllSale,
   getAllSaleByBranch,
   getAllSaleByBranchToday,
+  getAllKyc,
+  getAllKycByBranch,
+  getAllKycByBranchToday,
 };

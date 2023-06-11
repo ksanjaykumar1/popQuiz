@@ -2,6 +2,9 @@ import express from 'express';
 import { authorizePermissions } from '../middleware/authentication';
 import { ROLES } from '../utils/enum';
 import {
+  getAllKyc,
+  getAllKycByBranch,
+  getAllKycByBranchToday,
   getAllOnboarding,
   getAllOnboardingByBranch,
   getAllOnboardingByBranchToday,
@@ -29,5 +32,13 @@ router
 router
   .route('/allSalesByBranchToday/:branchName')
   .get(authorizePermissions(ROLES.HQ_ADMIN), getAllSaleByBranchToday);
+
+router.route('/allKYC').get(authorizePermissions(ROLES.HQ_ADMIN), getAllKyc);
+router
+  .route('/allKYCByBranch/:branchName')
+  .get(authorizePermissions(ROLES.HQ_ADMIN), getAllKycByBranch);
+router
+  .route('/allKYCByBranchToday/:branchName')
+  .get(authorizePermissions(ROLES.HQ_ADMIN), getAllKycByBranchToday);
 
 export default router;
