@@ -27,6 +27,7 @@ const authenticateUser = async (
     Logger.info(JSON.stringify(req.user));
   } catch (error) {
     Logger.error(error);
+    throw new UnAuthenticated('Authenctication invalid');
   }
   next();
 };
@@ -45,8 +46,8 @@ const authorizePermissions = (...roles: any) => {
 // checks the requesting resource belong to requesting user
 const checkPermissions = (id1: any, id2: any) => {
   if (id1 !== id2) {
-    Logger.info(id1)
-    Logger.info(id2)
+    Logger.info(id1);
+    Logger.info(id2);
     throw new UnAuthorized(`User doesn't have permission`);
   }
   return true;
