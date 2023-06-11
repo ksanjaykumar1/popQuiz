@@ -1,5 +1,9 @@
 import express from 'express';
-import { onboarding } from '../controllers/investor';
+import {
+  getKYCbyInvestorEmail,
+  onboarding,
+  verifyKYCandApproveInvestor,
+} from '../controllers/investor';
 import {
   authenticateUser,
   authorizePermissions,
@@ -10,5 +14,19 @@ const router = express.Router();
 router
   .route('/onboard')
   .post(authenticateUser, authorizePermissions(ROLES.BRANCH_REP), onboarding);
+router
+  .route('/getKYC')
+  .post(
+    authenticateUser,
+    authorizePermissions(ROLES.BRANCH_REP),
+    getKYCbyInvestorEmail
+  );
+router
+  .route('/verifyKYCandApprove')
+  .patch(
+    authenticateUser,
+    authorizePermissions(ROLES.BRANCH_REP),
+    verifyKYCandApproveInvestor
+  );
 
 export default router;
