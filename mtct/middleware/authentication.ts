@@ -3,6 +3,8 @@ import { UnAuthenticated, UnAuthorized } from '../errors';
 import { isTokenValid } from '../utils/jwt';
 import Logger from '../utils/logger';
 
+/*authenticated User by validating JWT and 
+adds JWT data to req.user for future use */
 const authenticateUser = async (
   req: any,
   res: express.Response,
@@ -17,8 +19,10 @@ const authenticateUser = async (
   const token = authHeader.split(' ')[1];
   Logger.info('Token present');
   try {
-    const { userId, name, role }: any = isTokenValid({ token });
-    req.user = { name, userId, role };
+    const { userId, name, role, branchId, investorId }: any = isTokenValid({
+      token,
+    });
+    req.user = { name, userId, role, branchId, investorId };
     Logger.info(JSON.stringify(req.user));
   } catch (error) {
     Logger.error(error);
@@ -26,16 +30,18 @@ const authenticateUser = async (
   next();
 };
 
+//  checks authorization based on roles
 const authorizePermissions = (...roles: any) => {
   return (req: any, res: express.Response, next: express.NextFunction) => {
     if (!roles.includes(req.user.role)) {
-      throw new UnAuthorized('authorized to access');
+      throw new UnAuthorized('Unauthorized to access');
     }
     Logger.info(req.user.role);
     next();
   };
 };
 
+// checks the requesting resource belong to requesting user
 const checkPermissions = (
   req: any,
   res: express.Response,
@@ -47,8 +53,4 @@ const checkPermissions = (
   next();
 };
 
-module.exports = {
-  authenticateUser,
-  authorizePermissions,
-  checkPermissions,
-};
+export { authenticateUser, authorizePermissions, checkPermissions };
