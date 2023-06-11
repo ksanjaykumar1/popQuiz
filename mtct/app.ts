@@ -16,6 +16,8 @@ import investorRoutes from './routes/investor';
 import investorPortalRoutes from './routes/investorPortal';
 import saleRoutes from './routes/sale';
 import assetRoutes from './routes/asset';
+import hqRoutes from './routes/hq';
+
 import setup from './utils/initialDBDataSetup';
 import { authenticateUser } from './middleware/authentication';
 
@@ -42,6 +44,7 @@ app.use('/api/v1/investor', authenticateUser, investorRoutes);
 app.use('/api/v1/investorPortal', authenticateUser, investorPortalRoutes);
 app.use('/api/v1/sale', authenticateUser, saleRoutes);
 app.use('/api/v1/asset', authenticateUser, assetRoutes);
+app.use('/api/v1/hq', authenticateUser, hqRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
