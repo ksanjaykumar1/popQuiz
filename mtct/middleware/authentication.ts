@@ -19,10 +19,11 @@ const authenticateUser = async (
   const token = authHeader.split(' ')[1];
   Logger.info('Token present');
   try {
-    const { userId, name, role, branchId, investorId }: any = isTokenValid({
-      token,
-    });
-    req.user = { name, userId, role, branchId, investorId };
+    const { userId, name, role, branchId, investorId, hqAdminId }: any =
+      isTokenValid({
+        token,
+      });
+    req.user = { name, userId, role, branchId, investorId, hqAdminId };
     Logger.info(JSON.stringify(req.user));
   } catch (error) {
     Logger.error(error);
