@@ -8,15 +8,20 @@ const investorPortfolioSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  investor: {
+  investorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Investor',
     required: true,
   },
   assets: [
     {
-      asset: {
+      assetId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Asset',
+        required: true,
+      },
+      assetName: {
+        type: String,
         ref: 'Asset',
         required: true,
       },
