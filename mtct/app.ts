@@ -38,9 +38,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/investor', investorRoutes);
-app.use('/api/v1/investorPortal', investorPortalRoutes);
-app.use('/api/v1/sale', saleRoutes);
+app.use('/api/v1/investor', authenticateUser, investorRoutes);
+app.use('/api/v1/investorPortal', authenticateUser, investorPortalRoutes);
+app.use('/api/v1/sale', authenticateUser, saleRoutes);
 app.use('/api/v1/asset', authenticateUser, assetRoutes);
 
 app.use(notFound);
