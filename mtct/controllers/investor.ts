@@ -6,6 +6,7 @@ import Investor from '../models/Investor';
 import Logger from '../utils/logger';
 import KYC from '../models/Kyc';
 import { INVESTOR_STATUS } from '../utils/enum';
+import InvestorPortfolio from '../models/Portfolio';
 
 // Branch Rep will onboard investor once investor has signed up
 const onboarding = async (req: any, res: express.Response) => {
@@ -20,6 +21,10 @@ const onboarding = async (req: any, res: express.Response) => {
     ...req.body,
     branchId: req.user.branchId,
     userId: user._id,
+  });
+  const portfolio = await InvestorPortfolio.create({
+    userId: user._id,
+    investorId: investor._id,
   });
 
   res.status(StatusCodes.CREATED).json({ msg: 'Investor oboarded ', investor });
@@ -56,6 +61,5 @@ const verifyKYCandApproveInvestor = async (req: any, res: express.Response) => {
   await investor.save();
   res.status(StatusCodes.CREATED).json({ msg: 'Verified and approved' });
 };
-
 
 export { onboarding, getKYCbyInvestorEmail, verifyKYCandApproveInvestor };
