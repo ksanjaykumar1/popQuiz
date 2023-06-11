@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  mtct:
+    image: mtct:latest
+    container_name: mtct
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: npm run dev
+  
+  mongo-db:
+    image: mongo:4.4.4-bionic
+    container_name: mongo-db
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata:/data/db
+volumes:
+  node_modules:
+  dbdata:
