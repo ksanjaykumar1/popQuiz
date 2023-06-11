@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
 const Asset = new mongoose.Schema({
-  symbol: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   name: {
     type: String,
     required: true,
@@ -15,16 +10,21 @@ const Asset = new mongoose.Schema({
     required: true,
     min: 0,
   },
+  availableQuantity: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
   purchasePrice: {
     type: Number,
     required: true,
     min: 0,
   },
-  purchaseDate: {
+  createdDate: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
-  owner: {
+  ownerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
