@@ -9,6 +9,7 @@ import Logger from '../utils/logger';
 import { ROLES } from '../utils/enum';
 import BranchRepresentative from '../models/BranchRepresentative';
 import Investor from '../models/Investor';
+import HQRepresentative from '../models/HqRepresentative';
 
 const register = async (req: express.Request, res: express.Response) => {
   const user = await User.create({ ...req.body });
@@ -19,6 +20,7 @@ const register = async (req: express.Request, res: express.Response) => {
 
 const login = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
+  Logger.debug(email);
   if (!email || !password) {
     throw new BadRequest('Provide both email and password');
   }
@@ -47,6 +49,20 @@ const login = async (req: express.Request, res: express.Response) => {
       userId: user._id,
       role: user.role,
       investorId: investor?._id,
+    };
+  } else if (user.role === ROLES.HQ_ADMIN) {
+    const hq_admin = await HQRepresentative.findOne({ user: user._id });
+    userToken = {
+      name: user.name,
+      userId: user._id,
+      role: user.role,
+      hqAdminId: hq_admin?._id,
+    };
+  } else {
+    userToken = {
+      name: user.name,
+      userId: user._id,
+      role: user.role,
     };
   }
 
