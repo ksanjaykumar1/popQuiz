@@ -3,12 +3,14 @@ import Logger from './logger';
 import HQRepresentative from '../models/HqRepresentative';
 import Branch from '../models/Branch';
 import BranchRepresentative from '../models/BranchRepresentative';
+import Asset from '../models/Asset';
 
 import hqRepresentativeJSON from '../mockData/hQRepresentative.json';
 import branch1JSON from '../mockData/branch1.json';
 import branch1Rep1RepresentativeJSON from '../mockData/branch1Rep1.json';
 import branch2JSON from '../mockData/branch2.json';
 import branch2Rep1RepresentativeJSON from '../mockData/branch2Rep1.json';
+import assetsJSON from '../mockData/assets.json';
 
 const setup = async () => {
   // If no user are recorded then add data
@@ -17,8 +19,8 @@ const setup = async () => {
     Logger.info('DB data was setup completed', isFirstAccount);
   } else {
     // Enroll HQ Admin
-    let user = await User.create({ ...hqRepresentativeJSON });
-    await HQRepresentative.create({ user: user._id });
+    let hqRep = await User.create({ ...hqRepresentativeJSON });
+    await HQRepresentative.create({ user: hqRep._id });
 
     // Enroll two branches
     let branch1 = await Branch.create({ ...branch1JSON });
@@ -37,7 +39,11 @@ const setup = async () => {
       userId: branch2Rep1._id,
       branchId: branch2._id,
     });
-    Logger.info('DB data is successfully setup ');
+    // Adding assets with owner as HQ Representative
+    assetsJSON.map(async (asset) => {
+      await Asset.create({ ...asset, ownerId: hqRep._id });
+    });
+    Logger.info('DB data is successfully setup');
   }
 };
 

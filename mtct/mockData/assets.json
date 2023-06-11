@@ -1,0 +1,32 @@
+[
+  {
+    "name": "IBM",
+    "quantity": 50,
+    "purchasePrice": 1050
+  },
+  {
+    "name": "Apple",
+    "quantity": 520,
+    "purchasePrice": 1300
+  },
+  {
+    "name": "Amazon",
+    "quantity": 350,
+    "purchasePrice": 1030
+  },
+  {
+    "name": "Meta",
+    "quantity": 50,
+    "purchasePrice": 820
+  },
+  {
+    "name": "WB",
+    "quantity": 10,
+    "purchasePrice": 180
+  },
+  {
+    "name": "Instagram",
+    "quantity": 50,
+    "purchasePrice": 1000
+  }
+]
