@@ -44,7 +44,7 @@ const investorSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  branch: {
+  branchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Branch',
     required: true,
