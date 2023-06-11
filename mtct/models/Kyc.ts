@@ -3,10 +3,19 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const kycSchema = new Schema({
-  investor: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  investorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Investor',
     required: true,
+  },
+  branchId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Branch',
   },
   fullName: {
     type: String,
@@ -14,7 +23,6 @@ const kycSchema = new Schema({
   },
   dateOfBirth: {
     type: Date,
-    required: true,
   },
   address: {
     type: String,
@@ -24,21 +32,14 @@ const kycSchema = new Schema({
   },
   issueDate: {
     type: Date,
-    required: true,
   },
   createdDate: {
     type: Date,
     default: Date.now,
   },
-  branchId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Branch',
-    required: true,
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+  verifed: {
+    type: Boolean,
+    default: false,
   },
 });
 
