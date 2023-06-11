@@ -1,16 +1,22 @@
 import mongoose from 'mongoose';
+import { SALE_STATUS } from '../utils/enum';
 
 const { Schema } = mongoose;
 
 const SaleSchema = new Schema({
-  investor: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  investorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Investor',
     required: true,
   },
-  stock: {
+  assetId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Stock',
+    ref: 'Asset',
     required: true,
   },
   quantity: {
@@ -37,10 +43,10 @@ const SaleSchema = new Schema({
     ref: 'Branch',
     required: true,
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+  status: {
+    type: String,
+    enum: SALE_STATUS,
+    default: 'offered',
   },
 });
 

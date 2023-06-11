@@ -12,4 +12,10 @@ const INVESTOR_STATUS = {
   ONBOARDED: 'onboarded',
 };
 
-export { ROLES, INVESTOR_STATUS };
+const SALE_STATUS = {
+  COMPLETED: 'completed',
+  OFFERED: 'offered',
+  REJECTED: 'rejected',
+};
+
+export { ROLES, INVESTOR_STATUS, SALE_STATUS };
