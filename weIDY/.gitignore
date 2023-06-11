@@ -1,0 +1,9 @@
+investor/node_modules
+investor/.env
+investor/dist/
+investor/data
+
+mtct/node_modules
+mtct/.env
+mtct/dist
+mtct/logs
