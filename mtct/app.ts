@@ -17,6 +17,7 @@ import investorPortalRoutes from './routes/investorPortal';
 import saleRoutes from './routes/sale';
 import assetRoutes from './routes/asset';
 import setup from './utils/initialDBDataSetup';
+import { authenticateUser } from './middleware/authentication';
 
 const { PORT, MONGO_URI } = process.env;
 
@@ -40,7 +41,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/investor', investorRoutes);
 app.use('/api/v1/investorPortal', investorPortalRoutes);
 app.use('/api/v1/sale', saleRoutes);
-app.use('/api/v1/asset', assetRoutes);
+app.use('/api/v1/asset', authenticateUser, assetRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
