@@ -6,13 +6,15 @@ import User from '../models/User';
 import { createJWT } from '../utils/jwt';
 import { BadRequest, UnAuthenticated } from '../errors';
 import Logger from '../utils/logger';
+import { ROLES } from '../utils/enum';
+import BranchRepresentative from '../models/BranchRepresentative';
+import Investor from '../models/Investor';
+
 const register = async (req: express.Request, res: express.Response) => {
   const user = await User.create({ ...req.body });
-  const userToken = { name: user.name, userId: user._id, role: user.role };
-  const token = createJWT({ payload: userToken });
   res
     .status(StatusCodes.CREATED)
-    .json({ token, user: { userId: user._id, name: user.name } });
+    .json({ user: { userId: user._id, name: user.name } });
 };
 
 const login = async (req: express.Request, res: express.Response) => {
@@ -29,10 +31,28 @@ const login = async (req: express.Request, res: express.Response) => {
     Logger.error('Password match ==>', isMatch);
     throw new UnAuthenticated('Invalid Password');
   }
-  const userToken = { name: user.name, userId: user._id, role: user.role };
+  let userToken;
+  if (user.role === ROLES.BRANCH_REP) {
+    const branchRep = await BranchRepresentative.findOne({ userId: user._id });
+    userToken = {
+      name: user.name,
+      userId: user._id,
+      role: user.role,
+      branchId: branchRep?.branchId,
+    };
+  } else if (user.role === ROLES.INVESTOR) {
+    const investor = await Investor.findOne({ userId: user._id });
+    userToken = {
+      name: user.name,
+      userId: user._id,
+      role: user.role,
+      investorId: investor?._id,
+    };
+  }
+
   const token = createJWT({ payload: userToken });
   res
-    .status(StatusCodes.CREATED)
+    .status(StatusCodes.OK)
     .json({ token, user: { userId: user._id, name: user.name } });
 };
 export { register, login };
