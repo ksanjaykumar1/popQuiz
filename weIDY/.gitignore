@@ -7,3 +7,4 @@ mtct/node_modules
 mtct/.env
 mtct/dist
 mtct/logs
+mtct/data
