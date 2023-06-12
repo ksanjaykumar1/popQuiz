@@ -12,6 +12,7 @@ import notFound from './middleware/not-found';
 import errorHandler from './middleware/errorHandler';
 
 import authRoutes from './routes/auth';
+import ssiAuthRoutes from './routes/ssiAuth';
 import investorRoutes from './routes/investor';
 import investorPortalRoutes from './routes/investorPortal';
 import saleRoutes from './routes/sale';
@@ -50,6 +51,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/ssiAuth', ssiAuthRoutes);
 app.use('/api/v1/investor', authenticateUser, investorRoutes);
 app.use('/api/v1/investorPortal', authenticateUser, investorPortalRoutes);
 app.use('/api/v1/sale', authenticateUser, saleRoutes);
