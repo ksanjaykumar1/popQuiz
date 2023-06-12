@@ -21,6 +21,16 @@ import hqRoutes from './routes/hq';
 import setup from './utils/initialDBDataSetup';
 import { authenticateUser } from './middleware/authentication';
 
+import {
+  agent,
+  connectionListner,
+  importDID,
+  initialOutOfBandRecord,
+  registerInitialScehmaAndCredDef,
+  run,
+} from './integration/integration';
+import { removeData } from './utils/file';
+
 const { PORT, MONGO_URI } = process.env;
 
 const app: express.Application = express();
@@ -53,6 +63,14 @@ const start = async () => {
     await connectDB(MONGO_URI);
     Logger.info('Connected to DB');
     await setup();
+    
+    // Agent Setup
+    removeData();
+    await run();
+    await importDID();
+    connectionListner(initialOutOfBandRecord);
+    console.log('before registering schema and cred def');
+    await registerInitialScehmaAndCredDef();
     await server.listen(port, () => {
       // our only exception to avoiding console.log(), because we
       // always want to know when the server is done starting up
