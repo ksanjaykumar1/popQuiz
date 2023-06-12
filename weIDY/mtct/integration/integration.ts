@@ -66,6 +66,7 @@ import { indyVdr } from '@hyperledger/indy-vdr-nodejs';
 
 import { ledgers } from '../utils/ledgers';
 import { Aries } from '../errors';
+import Logger from '../utils/logger';
 
 const publicDidSeed = <string>process.env.PUBLIC_DID_SEED;
 const issuerId = <string>process.env.ISSUER_DID;
@@ -366,6 +367,45 @@ const connectionListner = (outOfBandRecord: OutOfBandRecord) => {
   );
 };
 
+const connectionListnerSignUp = (
+  outOfBandRecord: OutOfBandRecord,
+  email: any
+) => {
+  agent.events.on<ConnectionStateChangedEvent>(
+    ConnectionEventTypes.ConnectionStateChanged,
+    async ({ payload }) => {
+      if (payload.connectionRecord.outOfBandId !== outOfBandRecord.id) return;
+      if (payload.connectionRecord.state === DidExchangeState.Completed) {
+        // the connection is now ready for usage in other protocols!
+        console.log(
+          `Connection for out-of-band id ${outOfBandRecord.id} completed`
+        );
+        connectedConnectionRecord = payload.connectionRecord;
+        await sendMessage(
+          payload.connectionRecord.id,
+          `Hello you are being connected us with connection record ${payload.connectionRecord.id}`
+        );
+        const initialCredDefBuffer = fs.readFileSync(
+          `./data/credentialDefinition.json`,
+          'utf8'
+        );
+        const initialCredDef = JSON.parse(initialCredDefBuffer);
+        console.log(initialCredDef.credentialDefinitionId);
+        const credentialDefinitionId = initialCredDef.credentialDefinitionId;
+        console.log(
+          `sending credential offer for connection id ${payload.connectionRecord.id} using cred def ${credentialDefinitionId}`
+        );
+        const credentialOffer = await issueCredentialV2(
+          credentialDefinitionId,
+          payload.connectionRecord.id,
+          { email }
+        );
+        Logger.info(credentialOffer);
+      }
+    }
+  );
+};
+
 export {
   agent,
   invitationUrl,
@@ -379,4 +419,5 @@ export {
   connectedConnectionRecord,
   issueCredentialV2,
   importDID,
+  connectionListnerSignUp
 };
