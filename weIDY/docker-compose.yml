@@ -1,31 +1,34 @@
 version: '3.7'
 services:
-  mtct-weIDY:
-    image: mtct-weIDY:latest
-    container_name: mtct-weIDY
+  mtct-weidy:
+    image: mtct-weidy:latest
+    container_name: mtct-weidy
     build:
       context: ./mtct
+    env_file: ./mtct/.env
     restart: unless-stopped
     ports:
       - 3000:3000
     volumes:
-      - node_modules_weIDY:/app/node_modules
+      - ./mtct/data:/app/data
+      - node_modules_weidy:/app/node_modules
 
-  mongo-db-weIDY:
+  mongo-db-weidy:
     image: mongo:4.4.4-bionic
-    container_name: mongo-db
+    container_name: mongo-db-weidy
+    env_file: ./mtct/.env
     restart: unless-stopped
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME="mongo-db-admin"
+      - MONGO_INITDB_ROOT_PASSWORD="mongo-password"
     ports:
       - 27017:27017
     volumes:
-      - dbdata_weIDY:/data/db
+      - dbdata_weidy:/data/db
 
   investor:
-    image: investor-weIDY
-    container_name: investor-weIDY
+    image: investor-weidy
+    container_name: investor-weidy
     build:
       context: ./investor
     env_file: ./investor/.env
@@ -35,6 +38,6 @@ services:
       - node_modulesH:/app/node_modules
 
 volumes:
-  node_modules_weIDY:
-  dbdata_weIDY:
+  node_modules_weidy:
+  dbdata_weidy:
   node_modulesH:
