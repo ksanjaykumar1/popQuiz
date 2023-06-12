@@ -21,6 +21,10 @@ import hqRoutes from './routes/hq';
 import setup from './utils/initialDBDataSetup';
 import { authenticateUser } from './middleware/authentication';
 
+// Swagger
+import * as swaggerUI from 'swagger-ui-express';
+import * as YAML from 'yamljs';
+
 const { PORT, MONGO_URI } = process.env;
 
 const app: express.Application = express();
@@ -39,12 +43,19 @@ const runningMessage = `Server running at http://localhost:${port}`;
 app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
+
+// Swagger setup
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/investor', authenticateUser, investorRoutes);
 app.use('/api/v1/investorPortal', authenticateUser, investorPortalRoutes);
 app.use('/api/v1/sale', authenticateUser, saleRoutes);
 app.use('/api/v1/asset', authenticateUser, assetRoutes);
 app.use('/api/v1/hq', authenticateUser, hqRoutes);
+
+// swagger route
+app.use('/api-use', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use(notFound);
 app.use(errorHandler);

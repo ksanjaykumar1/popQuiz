@@ -1,0 +1,630 @@
+openapi: 3.0.0
+info:
+  title: mtct
+  contact: {}
+  version: '1.0'
+servers:
+  - url: http://localhost:3000/api/v1
+    variables: {}
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: login
+      operationId: login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/loginrequest'
+                - example:
+                    email: hq_admin@gmail.com
+                    password: password
+            example:
+              email: hq_admin@gmail.com
+              password: password
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/sign-up:
+    post:
+      tags:
+        - auth
+      summary: sign-up
+      operationId: sign-up
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/sign-up-request'
+                - example:
+                    name: rahul
+                    email: rahul@gmail.com
+                    password: password
+            example:
+              name: rahul
+              email: rahul@gmail.com
+              password: password
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /investor/onboard:
+    post:
+      tags:
+        - investor
+      summary: onboard Investor
+      operationId: onboardInvestor
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/onboardInvestorRequest'
+                - example:
+                    firstName: rahul
+                    email: rahul@gmail.com
+            example:
+              firstName: rahul
+              email: rahul@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /investor/getKYC:
+    post:
+      tags:
+        - investor
+      summary: get eKYC
+      operationId: geteKYC
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/geteKYCRequest'
+                - example:
+                    email: sanjay@gmail.com
+            example:
+              email: sanjay@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /investor/verifyKYCandApprove:
+    patch:
+      tags:
+        - investor
+      summary: verify KYC and approve user
+      operationId: verifyKYCandapproveuser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/verifyKYCandapproveuserRequest'
+                - example:
+                    email: sanjay@gmail.com
+            example:
+              email: sanjay@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /investorPortal/submitkyc:
+    post:
+      tags:
+        - Investor portal
+      summary: submit kyc
+      operationId: submitkyc
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/submitkycrequest'
+                - example:
+                    fullName: rahul
+                    dateOfBirth: 1999-05-31
+                    address: Bangalore
+                    nationality: India
+            example:
+              fullName: rahul
+              dateOfBirth: 1999-05-31
+              address: Bangalore
+              nationality: India
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /investorPortal/allSaleOffer:
+    get:
+      tags:
+        - Investor portal
+      summary: all sale offers
+      operationId: allsaleoffers
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /investorPortal/acceptSaleOffer/{id}:
+    post:
+      tags:
+        - Investor portal
+      summary: accept sale offer
+      operationId: acceptsaleoffer
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: mongo id of the sale document which investor wants to accept
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /asset/create:
+    post:
+      tags:
+        - assets
+      summary: create
+      operationId: create
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/createrequest'
+                - example:
+                    name: Raymond
+                    quantity: 110
+                    availableQuantity: 0
+                    purchasePrice: 150
+            example:
+              name: Raymond
+              quantity: 110
+              availableQuantity: 0
+              purchasePrice: 150
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /asset/allSold:
+    get:
+      tags:
+        - assets
+      summary: All sold assets
+      operationId: Allsoldassets
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /asset/all:
+    get:
+      tags:
+        - assets
+      summary: all assets
+      operationId: allassets
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /asset/allForSale:
+    get:
+      tags:
+        - assets
+      summary: assets for sale
+      operationId: assetsforsale
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /sale/createOfferSale:
+    post:
+      tags:
+        - sale
+      summary: create sale offer
+      operationId: createsaleoffer
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/createsaleofferrequest'
+                - example:
+                    emailOfInvestor: sanjay@gmail.com
+                    assetName: Amazon
+                    quantity: 2
+                    salePrice: 1000
+            example:
+              emailOfInvestor: sanjay@gmail.com
+              assetName: Amazon
+              quantity: 2
+              salePrice: 1000
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allOnboarding:
+    get:
+      tags:
+        - hq
+      summary: all onboarding
+      operationId: allonboarding
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allSales:
+    get:
+      tags:
+        - hq
+      summary: all sales
+      operationId: allsales
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allKYC:
+    get:
+      tags:
+        - hq
+      summary: all kyc
+      operationId: allkyc
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allOnboardingByBranch/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all onboarding branch name
+      operationId: allonboardingbranchname
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allSalesByBranch/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all sales by branch name
+      operationId: allsalesbybranchname
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allKYCByBranch/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all kycs by branch name
+      operationId: allkycsbybranchname
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allOnboardingByBranchToday/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all onboarding branch name daily data
+      operationId: allonboardingbranchnamedailydata
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allSalesByBranchToday/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all sales by branch name daily data
+      operationId: allsalesbybranchnamedailydata
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /hq/allKYCByBranchToday/{branchName}:
+    get:
+      tags:
+        - hq
+      summary: all kycs by branch name daily data
+      operationId: allkycsbybranchnamedailydata
+      parameters:
+        - in: path
+          name: branchName
+          schema:
+            type: string
+          required: true
+          description: Enter the branch name
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+components:
+  schemas:
+    loginrequest:
+      title: loginrequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: hq_admin@gmail.com
+        password: password
+    sign-up-request:
+      title: sign-up-request
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: rahul
+        email: rahul@gmail.com
+        password: password
+    onboardInvestorRequest:
+      title: onboardInvestorRequest
+      required:
+        - firstName
+        - email
+      type: object
+      properties:
+        firstName:
+          type: string
+        email:
+          type: string
+      example:
+        firstName: rahul
+        email: rahul@gmail.com
+    geteKYCRequest:
+      title: geteKYCRequest
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+      example:
+        email: sanjay@gmail.com
+    verifyKYCandapproveuserRequest:
+      title: verifyKYCandapproveuserRequest
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+      example:
+        email: sanjay@gmail.com
+    submitkycrequest:
+      title: submitkycrequest
+      required:
+        - fullName
+        - dateOfBirth
+        - address
+        - nationality
+      type: object
+      properties:
+        fullName:
+          type: string
+        dateOfBirth:
+          type: string
+        address:
+          type: string
+        nationality:
+          type: string
+      example:
+        fullName: rahul
+        dateOfBirth: 1999-05-31
+        address: Bangalore
+        nationality: India
+    createrequest:
+      title: createrequest
+      required:
+        - name
+        - quantity
+        - availableQuantity
+        - purchasePrice
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        availableQuantity:
+          type: integer
+          format: int32
+        purchasePrice:
+          type: integer
+          format: int32
+      example:
+        name: Raymond
+        quantity: 110
+        availableQuantity: 0
+        purchasePrice: 150
+    createsaleofferrequest:
+      title: createsaleofferrequest
+      required:
+        - emailOfInvestor
+        - assetName
+        - quantity
+        - salePrice
+      type: object
+      properties:
+        emailOfInvestor:
+          type: string
+        assetName:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        salePrice:
+          type: integer
+          format: int32
+      example:
+        emailOfInvestor: sanjay@gmail.com
+        assetName: Amazon
+        quantity: 2
+        salePrice: 1000
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: auth
+  - name: investor
+  - name: Investor portal
+  - name: assets
+  - name: sale
+  - name: hq
